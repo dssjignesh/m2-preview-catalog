@@ -1,0 +1,29 @@
+{
+  "name": "dss/m2-preview-catalog",
+  "description": "Dss Go To Catalog for preview category or product from admin",
+  "type": "magento2-module",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Extension Team",
+      "email": "info@digitsoftsol.com",
+      "homepage": "https://www.digitsoftsol.com"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "magento/product-community-edition": "^2.4.5",
+    "dss/m2-core": "^0.0.1"
+  },
+  "license": [
+    "OSL-3.0"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Dss\\GoToCatalog\\": ""
+    }
+  }
+}
