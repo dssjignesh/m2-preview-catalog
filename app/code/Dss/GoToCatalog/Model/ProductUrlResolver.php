@@ -88,7 +88,7 @@ class ProductUrlResolver
      * @param int|string $productId
      * @return bool|array|string
      */
-    private function getParent($productId): bool|array|string
+    private function getParent(int $productId): bool|array|string
     {
         $parentProduct = false;
         if ($parentId = $this->parentIdResolver->getParentId($productId, ProductType::TYPE_BUNDLE)) {
