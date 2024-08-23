@@ -77,7 +77,7 @@ class ProductUrlResolver
      * @param string $keyword
      * @return string
      */
-    public function getDefaultUrl($keyword): string
+    public function getDefaultUrl(string $keyword): string
     {
         return $this->goToCatalogHelper->getUrl('catalogsearch/result', ['_secure' => true]) . '?q=' . $keyword;
     }
@@ -86,9 +86,9 @@ class ProductUrlResolver
      * Get Parent
      *
      * @param int|string $productId
-     * @return void
+     * @return bool|array|string
      */
-    private function getParent($productId)
+    private function getParent($productId): bool|array|string
     {
         $parentProduct = false;
         if ($parentId = $this->parentIdResolver->getParentId($productId, ProductType::TYPE_BUNDLE)) {
