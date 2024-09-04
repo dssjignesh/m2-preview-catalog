@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Digit Software Solutions.
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the EULA
+* that is bundled with this package in the file LICENSE.txt.
+*
+* @category  Dss
+* @package   Dss_GoToCatalog
+* @author    Extension Team
+* @copyright Copyright (c) 2024 Digit Software Solutions. ( https://digitsoftsol.com )
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="dssgotocatalog" sortOrder="100" translate="label" showInDefault="1" showInWebsite="1"
+            showInStore="1">
+            <tab>dss</tab>
+            <label>Go To Catalog</label>
+            <resource>Dss_GoToCatalog::config</resource>
+            <group id="general" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
+                    showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="debug" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1"
+                    showInStore="1">
+                    <label>Debug Mode</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="catalog" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Catalog Settings</label>
+                <field id="enable_product_link" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1"
+                    showInStore="1" type="select">
+                    <label>Enable "View in Store" in Admin Product</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_category_link" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1"
+                    showInStore="1" type="select">
+                    <label>Enable "View in Store" in Admin Category</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="product_url_key" translate="label" type="text" sortOrder="30" showInDefault="1"
+                    showInWebsite="1" canRestore="1">
+                    <label>Short URL Key to Go to Product</label>
+                    <backend_model>Dss\GoToCatalog\Model\Config\Backend\UrlKey</backend_model>
+                    <comment>
+                        <![CDATA[User can go to product page directly via URL: <em>/{short-url-key}/{sku}</em>]]>
+                    </comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
