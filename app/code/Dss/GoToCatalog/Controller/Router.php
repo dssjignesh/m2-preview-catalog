@@ -51,48 +51,50 @@ class Router implements RouterInterface
      */
     public function match(RequestInterface $request)
     {
-        $pathInfo = trim($request->getPathInfo(), '/');
-        if (empty($pathInfo)) {
-            return;
-        }
+        if ($this->goToCatalogHelper->isActive()) {
+            $pathInfo = trim($request->getPathInfo(), '/');
+            if (empty($pathInfo)) {
+                return;
+            }
 
-        $condition = new DataObject(['identifier' => $pathInfo, 'continue' => true]);
-        $this->eventManager->dispatch(
-            'dss_gotocatalog_controller_router_match_before',
-            ['router' => $this, 'condition' => $condition]
-        );
-
-        if ($condition->getRedirectUrl()) {
-            $this->response->setRedirect($condition->getRedirectUrl());
-            $request->setDispatched(true);
-            return $this->actionFactory->create(
-                \Magento\Framework\App\Action\Redirect::class,
-                ['request' => $request]
+            $condition = new DataObject(['identifier' => $pathInfo, 'continue' => true]);
+            $this->eventManager->dispatch(
+                'dss_gotocatalog_controller_router_match_before',
+                ['router' => $this, 'condition' => $condition]
             );
-        }
 
-        if (!$condition->getContinue()) {
+            if ($condition->getRedirectUrl()) {
+                $this->response->setRedirect($condition->getRedirectUrl());
+                $request->setDispatched(true);
+                return $this->actionFactory->create(
+                    \Magento\Framework\App\Action\Redirect::class,
+                    ['request' => $request]
+                );
+            }
+
+            if (!$condition->getContinue()) {
+                return null;
+            }
+
+            $identifier = $condition->getIdentifier();
+            $params = explode('/', $identifier);
+            $requestIdentifier = $params[0] ?? '';
+
+            $skuRedirectIdentifier = $this->goToCatalogHelper->getConfig()->getCustomProductUrlKey();
+            if ($requestIdentifier == $skuRedirectIdentifier) {
+                $sku = $params[1] ?? '';
+                $request->setModuleName('dss_gotocatalog')
+                    ->setControllerName('redirect')
+                    ->setActionName('bySku')
+                    ->setParam('sku', $sku);
+
+                return $this->actionFactory->create(
+                    \Magento\Framework\App\Action\Forward::class,
+                    ['request' => $request]
+                );
+            }
+
             return null;
         }
-
-        $identifier = $condition->getIdentifier();
-        $params = explode('/', $identifier);
-        $requestIdentifier = $params[0] ?? '';
-
-        $skuRedirectIdentifier = $this->goToCatalogHelper->getConfig()->getCustomProductUrlKey();
-        if ($requestIdentifier == $skuRedirectIdentifier) {
-            $sku = $params[1] ?? '';
-            $request->setModuleName('dss_gotocatalog')
-                ->setControllerName('redirect')
-                ->setActionName('bySku')
-                ->setParam('sku', $sku);
-
-            return $this->actionFactory->create(
-                \Magento\Framework\App\Action\Forward::class,
-                ['request' => $request]
-            );
-        }
-
-        return null;
     }
 }

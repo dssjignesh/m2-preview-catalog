@@ -17,13 +17,14 @@ declare(strict_types=1);
 */
 namespace Dss\GoToCatalog\Model;
 
+use Magento\Catalog\Model\Product;
+use Dss\GoToCatalog\Model\ParentIdResolver;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Helper\Product as ProductHelper;
-use Magento\Catalog\Model\Product\Type as ProductType;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
-use Magento\GroupedProduct\Model\Product\Type\Grouped as GroupedType;
 use Dss\GoToCatalog\Helper\Data as GoToCatalogHelper;
-use Dss\GoToCatalog\Model\ParentIdResolver;
+use Magento\Catalog\Model\Product\Type as ProductType;
+use Magento\GroupedProduct\Model\Product\Type\Grouped as GroupedType;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
 
 class ProductUrlResolver
 {
@@ -42,7 +43,7 @@ class ProductUrlResolver
         protected ParentIdResolver $parentIdResolver
     ) {
     }
-    
+
     /**
      * Get Url by Sku
      *
@@ -86,9 +87,9 @@ class ProductUrlResolver
      * Get Parent
      *
      * @param int|string $productId
-     * @return bool|array|string
+     * @return Product
      */
-    private function getParent(int $productId): bool|array|string
+    private function getParent($productId): Product
     {
         $parentProduct = false;
         if ($parentId = $this->parentIdResolver->getParentId($productId, ProductType::TYPE_BUNDLE)) {

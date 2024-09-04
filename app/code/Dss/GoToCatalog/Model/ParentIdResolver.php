@@ -44,9 +44,9 @@ class ParentIdResolver
      *
      * @param int $productId
      * @param string $typeId
-     * @return array|bool
+     * @return string|bool
      */
-    public function getParentId($productId, $typeId): array|bool
+    public function getParentId($productId, $typeId): string|bool
     {
         $parentIds = [];
         if ($typeId == ConfigurableType::TYPE_CODE) {
