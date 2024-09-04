@@ -19,9 +19,8 @@ namespace Dss\GoToCatalog\Controller\Redirect;
 
 use Dss\GoToCatalog\Controller\Redirect;
 
-class BySku extends Redirect
+class BySku extends \Dss\GoToCatalog\Controller\Redirect
 {
-
     /**
      * Execute
      *
@@ -31,11 +30,10 @@ class BySku extends Redirect
     {
         $sku = $this->getRequest()->getParam('sku');
         if (!strlen($sku)) {
-            $this->performRedirection($this->goToCatalogHelper->getBaseUrl());
+            return $this->performRedirection($this->goToCatalogHelper->getBaseUrl());
         }
-
         if ($redirectUrl = $this->productUrlResolver->getUrlBySku($sku)) {
-            $this->performRedirection($redirectUrl, 301);
+            return $this->performRedirection($redirectUrl, 301);
         }
 
         $this->performRedirection($this->productUrlResolver->getDefaultUrl($sku));
